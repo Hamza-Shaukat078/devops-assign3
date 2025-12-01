@@ -34,7 +34,7 @@ pipeline {
         // -------------------- CODE LINTING --------------------
         stage('Code Linting') {
             steps {
-                // Lint only our app code, not third-party libraries in venv
+                // Lint only app code
                 sh '. venv/bin/activate && flake8 --max-line-length=120 app.py'
             }
         }  
@@ -46,10 +46,11 @@ pipeline {
             }
         }
 
-        // -------------------- UNIT TESTING --------------------
+        // -------------------- UNIT TESTING (BACKEND ONLY) --------------------
         stage('Unit Testing') {
             steps {
-                sh '. venv/bin/activate && pytest'
+                // Only run tests in tests/ (not selenium-tests/)
+                sh '. venv/bin/activate && pytest tests'
             }
         }
 
@@ -84,7 +85,6 @@ pipeline {
         stage('Containerized Deployment') {
             steps {
                 script {
-                    // Stop old containers, start new ones
                     sh 'docker-compose down || true'
                     sh 'docker-compose up -d --build'
                 }
@@ -122,7 +122,6 @@ pipeline {
         stage('Selenium Testing') {
             steps {
                 script {
-                    // Compose network name: <project>_default
                     def networkName = "${COMPOSE_PROJECT_NAME}_default"
 
                     sh """
