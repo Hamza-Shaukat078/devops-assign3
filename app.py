@@ -62,4 +62,3 @@ def add_task():
 if __name__ == "__main__":
     # Host 0.0.0.0 so it’s accessible from outside the EC2 instance if needed
     app.run(host="0.0.0.0", port=5000, debug=True)
-
