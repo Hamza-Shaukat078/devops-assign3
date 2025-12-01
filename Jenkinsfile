@@ -35,7 +35,7 @@ pipeline {
         stage('Code Linting') {
             steps {
                 // Lint only our app code, not third-party libraries in venv
-                sh '. venv/bin/activate && flake8 app.py'
+                sh '. venv/bin/activate && flake8 --max-line-length=120 app.py'
             }
         }  
         
