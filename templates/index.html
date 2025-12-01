@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CI/CD Flask Sample App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f2f2f2;
+        }
+        h1 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type="text"] {
+            padding: 8px;
+            width: 240px;
+        }
+        button {
+            padding: 8px 14px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: white;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .no-tasks {
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<h1>CI/CD Flask Task App</h1>
+
+<p>This Flask app uses a <strong>MySQL database server</strong> for storing tasks.</p>
+
+<h2>Add a Task</h2>
+
+<form action="/add" method="POST">
+    <input type="text" name="title" placeholder="Enter task" required>
+    <button type="submit">Add</button>
+</form>
+
+<h2>Current Tasks</h2>
+<ul>
+    {% if tasks and tasks|length > 0 %}
+        {% for task in tasks %}
+            <li>{{ task.id }}. {{ task.title }}</li>
+        {% endfor %}
+    {% else %}
+        <li class="no-tasks">No tasks in database yet.</li>
+    {% endif %}
+</ul>
+
+</body>
+</html>
+
